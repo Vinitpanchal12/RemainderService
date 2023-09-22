@@ -1,8 +1,6 @@
 const express = require('express')
 
 const bodyParser = require('body-parser');
-//const apiRoutes = require('./routes/index');
-//const db = require('./models/index');
 const {sendBasicEmail} = require('./services/emailService')
 const {PORT} = require('./config/serverConfig');
 
@@ -11,7 +9,7 @@ const setupAndStartServer=() =>{
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended:true}));
 
-    //app.use('/api',apiRoutes);
+    
     
     app.listen(PORT, ()=>{
         console.log(`server started at ${PORT}`);
