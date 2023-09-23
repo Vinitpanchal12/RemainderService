@@ -16,7 +16,7 @@ class EmailService{
     
     async fetchPendingEmails(timestamp){
         try {
-            const response = await this.ticketRepository.get({status:"PENDING"});
+            const response = await this.ticketRepository.getPending({status:"PENDING"});
             return response;
         } catch (error) {
             console.log(error);
@@ -37,6 +37,25 @@ class EmailService{
         try {
             //console.log(data);
             const response =  await this.ticketRepository.update(ticketId,data);
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    async getAllNotification(data){
+        try {
+            //console.log(data);
+            const response =  await this.ticketRepository.getAll(data);
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getNotification(ticketId){
+        try {
+            //console.log(data);
+            const response =  await this.ticketRepository.get(ticketId);
             return response;
         } catch (error) {
             console.log(error);

@@ -31,7 +31,7 @@ class TicketRepository{
             console.log(error)
         }
     }
-    async get(filter){
+    async getPending(filter){
         try {
             const tickets = await NotificationTicket.findAll({
                  where:{
@@ -42,6 +42,14 @@ class TicketRepository{
                  }
             });
             return tickets;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    async get(ticketId){
+        try {
+            const ticket = await NotificationTicket.findByPk(ticketId);
+            return ticket;
         } catch (error) {
             console.log(error)
         }
