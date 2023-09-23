@@ -5,7 +5,7 @@ const sender = require('../config/emailConfig');
 const emailService = new EmailService();
 
 const setupJobs = ()=> {
-    cron.schedule('*/1 * * * *',async ()=>{
+    cron.schedule('*/60 * * * *',async ()=>{
         const response = await emailService.fetchPendingEmails();
         console.log(response);
         response.forEach((email) => {
