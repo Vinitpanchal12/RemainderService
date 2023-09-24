@@ -1,11 +1,12 @@
 const sender = require('../config/emailConfig');
 const TicketRepository = require('../repository/ticketRepository');
-  
-class EmailService{
-    constructor(){
-        this.ticketRepository = new TicketRepository();
-    }
-    async sendBasicEmail (mailFrom,mailTo,mailSubject,mailBody) {
+const ticketRepository = new TicketRepository();
+// class EmailService{
+//     constructor(){
+//         this.ticketRepository = new TicketRepository();
+//         //this.emailService = new EmailService();
+//     }
+    const sendBasicEmail= async (mailFrom,mailTo,mailSubject,mailBody)=> {
         sender.sendMail({
             from:mailFrom,
             to:mailTo,
@@ -14,52 +15,76 @@ class EmailService{
         });
     }
     
-    async fetchPendingEmails(timestamp){
+    const  fetchPendingEmails = async(timestamp) =>{
         try {
-            const response = await this.ticketRepository.getPending({status:"PENDING"});
+            const response = await ticketRepository.getPending({status:"PENDING"});
             return response;
         } catch (error) {
             console.log(error);
         }
     }
     
-    async createNotification(data){
+    const  createNotification= async (data)=>{
         try {
             //console.log(data);
-            const response =  await this.ticketRepository.create(data);
+            const response =  await ticketRepository.create(data);
             return response;
         } catch (error) {
             console.log(error);
         }
     }
 
-    async updateTicket(ticketId,data){
+    const subscribeEvents =async(payload) =>{
+        let service = payload.service;
+        let data = payload.data;
+        switch (service) {
+            case 'CREATE_TICKET':
+                await createNotification(data);
+                break;
+            case 'SEND_BASIC_MAIL':
+                await sendBasicEmail(data);
+                break;
+            default:
+                console.log('no valid event');
+                break;
+        }
+    }
+
+    const  updateTicket= async(ticketId,data)=>{
         try {
             //console.log(data);
-            const response =  await this.ticketRepository.update(ticketId,data);
+            const response =  await ticketRepository.update(ticketId,data);
             return response;
         } catch (error) {
             console.log(error);
         }
     }
-    async getAllNotification(data){
+    const getAllNotification= async(data) =>{
         try {
             //console.log(data);
-            const response =  await this.ticketRepository.getAll(data);
+            const response =  await ticketRepository.getAll(data);
             return response;
         } catch (error) {
             console.log(error);
         }
     }
 
-    async getNotification(ticketId){
+    const getNotification= async(ticketId)=>{
         try {
             //console.log(data);
-            const response =  await this.ticketRepository.get(ticketId);
+            const response =  await ticketRepository.get(ticketId);
             return response;
         } catch (error) {
             console.log(error);
         }
     }
-} 
-module.exports =EmailService;
+
+module.exports ={
+    sendBasicEmail,
+    fetchPendingEmails,
+    createNotification,
+    subscribeEvents,
+    updateTicket,
+    getAllNotification,
+    getNotification
+};

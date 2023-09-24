@@ -1,9 +1,8 @@
 const EmailService = require('../services/emailService');
 
-const emailService = new EmailService();
 const create = async (req,res)=>{
     try {
-        const response = await emailService.createNotification(req.body);
+        const response = await EmailService.createNotification(req.body);
        // console.log(req.body)
         return res.status(201).json({
             data:response,
@@ -23,7 +22,7 @@ const create = async (req,res)=>{
 }
 const getAll = async (req,res)=>{
     try {
-        const response = await emailService.getAllNotification(req.query);
+        const response = await EmailService.getAllNotification(req.query);
        // console.log(req.body)
         return res.status(200).json({
             data:response,
@@ -44,7 +43,7 @@ const getAll = async (req,res)=>{
 
 const get = async (req,res)=>{
     try {
-        const response = await emailService.getNotification(req.params.id);
+        const response = await EmailService.getNotification(req.params.id);
        // console.log(req.body)
         return res.status(200).json({
             data:response,
